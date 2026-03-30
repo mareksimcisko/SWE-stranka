@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SIMTEL - Stavebná Firma</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    body { font-family: Arial, sans-serif; background: #f0f4f8; color: #222; }
+ 
+    
+    nav {
+      background: #0d2b4e;
+      padding: 12px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.3);
+    }
+ 
+    .logo-wrap { display: flex; align-items: center; gap: 14px; text-decoration: none; }
+ 
+    .logo-icon { width: 48px; height: 48px; filter: brightness(0) invert(1); }
+ 
+    .logo-text { color: #4da6ff; font-size: 26px; font-weight: bold; letter-spacing: 4px; line-height: 1; }
+    .logo-text span { display: block; font-size: 10px; letter-spacing: 2px; color: #aaa; font-weight: normal; margin-top: 2px; }
+ 
+    nav ul { list-style: none; display: flex; gap: 30px; }
+    nav ul li a { color: #ddd; text-decoration: none; font-size: 15px; letter-spacing: 1px; text-transform: uppercase; }
+    nav ul li a:hover { color: #4da6ff; }
+ 
+    
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 4px; }
+    .hamburger span { display: block; width: 25px; height: 2px; background: white; border-radius: 2px; }
+ 
+    
+    #domov {
+      position: relative;
+      height: 92vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+    }
+ 
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: url('https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1600&q=80') center/cover;
+      filter: brightness(0.35);
+    }
+ 
+    .hero-content { position: relative; z-index: 2; padding: 20px; }
+ 
+    .hero-badge {
+      display: inline-block;
+      background: #1a6fbe;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 3px;
+      padding: 6px 16px;
+      border-radius: 2px;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+ 
+    #domov h1 { font-size: 72px; color: #fff; letter-spacing: 10px; text-transform: uppercase; margin-bottom: 10px; }
+    .hero-sub { font-size: 18px; color: #ccc; margin-bottom: 35px; letter-spacing: 1px; }
+ 
+    .btn {
+      display: inline-block;
+      background: #1a6fbe;
+      color: #fff;
+      padding: 15px 40px;
+      font-size: 15px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 3px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .btn:hover { background: #155a9e; }
+ 
+    
+    .sekcia-obal { text-align: center; margin-bottom: 40px; }
+ 
+    .sekcia-nadpis {
+      font-size: 32px;
+      font-weight: bold;
+      color: #0d2b4e;
+      display: inline-block;
+      padding-bottom: 10px;
+      border-bottom: 3px solid #1a6fbe;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+ 
+    
+    #o-nas { background: #fff; padding: 70px 40px; }
+ 
+    .o-nas-grid {
+      display: flex;
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+ 
+    .o-nas-grid > img {
+      width: 460px;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 4px;
+      border-left: 5px solid #1a6fbe;
+      flex-shrink: 0;
+    }
+ 
+    .o-nas-text p { font-size: 16px; line-height: 1.9; color: #555; margin-bottom: 20px; }
+ 
+    .karty { display: flex; gap: 12px; flex-wrap: wrap; }
+ 
+    .karta {
+      background: #e0ecf8;
+      border-left: 4px solid #1a6fbe;
+      padding: 12px 16px;
+      border-radius: 3px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #0d2b4e;
+    }
+ 
+    
+    #galeria { background: #f0f4f8; padding: 70px 40px; }
+ 
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+ 
+    .galeria-item { position: relative; overflow: hidden; border-radius: 4px; height: 220px; }
+    .galeria-item img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.4s; }
+    .galeria-item:hover img { transform: scale(1.06); }
+ 
+    .galeria-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.75));
+      color: white;
+      padding: 20px 12px 10px;
+      font-size: 13px;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+ 
+    
+    #kontakt { background: #0d2b4e; color: white; padding: 70px 40px; }
+    #kontakt .sekcia-nadpis { color: #4da6ff; border-bottom-color: #4da6ff; }
+ 
+    .kontakt-wrap {
+      display: flex;
+      gap: 50px;
+      max-width: 900px;
+      margin: 30px auto 0;
+      flex-wrap: wrap;
+    }
+ 
+    .kontakt-info { flex: 1; min-width: 240px; }
+    .kontakt-info h3 { font-size: 18px; color: #4da6ff; margin-bottom: 20px; letter-spacing: 1px; text-transform: uppercase; }
+ 
+    .kontakt-riadok { margin-bottom: 18px; }
+    .kontakt-riadok strong { display: block; color: white; margin-bottom: 2px; }
+    .kontakt-riadok span { color: #bbb; font-size: 15px; }
+ 
+    .formular { flex: 1; min-width: 260px; display: flex; flex-direction: column; gap: 12px; }
+ 
+    .formular input, .formular textarea {
+      padding: 12px 14px;
+      border: 1px solid #3a3a3a;
+      background: #2a2a2a;
+      color: white;
+      border-radius: 3px;
+      font-size: 14px;
+      font-family: Arial, sans-serif;
+      width: 100%;
+    }
+    .formular input:focus, .formular textarea:focus { outline: none; border-color: #4da6ff; }
+    .formular textarea { height: 110px; resize: vertical; }
+ 
+    .formular button {
+      background: #1a6fbe;
+      color: white;
+      border: none;
+      padding: 14px;
+      font-size: 15px;
+      font-weight: bold;
+      border-radius: 3px;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .formular button:hover { background: #155a9e; }
+ 
+    
+    footer { background: #091d35; color: #555; text-align: center; padding: 18px; font-size: 13px; }
+    footer span { color: #4da6ff; }
+ 
+    
+ 
+    
+    @media (max-width: 768px) {
+      nav { padding: 12px 20px; }
+ 
+      .hamburger { display: flex; }
+ 
+      nav ul {
+        display: none;
+        flex-direction: column;
+        gap: 0;
+        position: absolute;
+        top: 72px;
+        left: 0; right: 0;
+        background: #0d2b4e;
+        padding: 10px 0;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      }
+      nav ul.open { display: flex; }
+      nav ul li a { display: block; padding: 12px 20px; font-size: 14px; }
+ 
+      #domov h1 { font-size: 42px; letter-spacing: 5px; }
+      .hero-sub { font-size: 15px; }
+ 
+      #o-nas, #galeria, #kontakt { padding: 50px 20px; }
+ 
+      .o-nas-grid > img { width: 100%; height: 220px; }
+ 
+      .galeria-grid { grid-template-columns: repeat(2, 1fr); }
+ 
+      .kontakt-wrap { flex-direction: column; gap: 30px; }
+    }
+ 
+    
+    @media (max-width: 480px) {
+      #domov h1 { font-size: 30px; letter-spacing: 3px; }
+      .hero-sub { font-size: 14px; }
+      .btn { padding: 12px 24px; font-size: 13px; }
+ 
+      .sekcia-nadpis { font-size: 24px; }
+ 
+      .galeria-grid { grid-template-columns: 1fr; }
+ 
+      .galeria-item { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+ 
+  
+  <nav>
+    <a href="#domov" class="logo-wrap">
+      <img class="logo-icon" src="https://cdn-icons-png.flaticon.com/512/263/263115.png" alt="SIMTEL logo"/>
+      <div class="logo-text">
+        SIMTEL
+        <span>stavebná firma</span>
+      </div>
+    </a>
+    <button class="hamburger" onclick="document.querySelector('nav ul').classList.toggle('open')">
+      <span></span><span></span><span></span>
+    </button>
+    <ul>
+      <li><a href="#domov">Domov</a></li>
+      <li><a href="#o-nas">O nás</a></li>
+      <li><a href="#galeria">Galéria</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+  </nav>
+ 
+  
+  <section id="domov">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <div class="hero-badge">Od roku 2008</div>
+      <h1>SIMTEL</h1>
+      <p class="hero-sub">Staviame s kvalitou. Dokončujeme načas.</p>
+      <a href="#kontakt" class="btn">Kontaktujte nás</a>
+    </div>
+  </section>
+ 
+  
+  <section id="o-nas">
+    <div class="sekcia-obal">
+      <h2 class="sekcia-nadpis">O nás</h2>
+    </div>
+    <div class="o-nas-grid">
+      <img src="https://doma.aktuality.sk/wp-content/uploads/2019/06/01_shutterstock_1074514391-1024x673.jpg" alt="Stavbári pri práci"/>
+      <div class="o-nas-text">
+        <p>Sme stavebná firma <strong>SIMTEL</strong> so sídlom na Slovensku. Staviame rodinné domy, byty a  budovy už viac ako <strong>15 rokov</strong>.</p>
+        <p>Naším cieľom je spokojný zákazník a kvalitne odvedená práca. Každý projekt je naša vášeň – od základov až po strechu.</p>
+        <div class="karty">
+          <div class="karta">Rodinné domy</div>
+          <div class="karta">Novostavby</div>
+          <div class="karta">Rekonštrukcie</div>
+          <div class="karta">Projekty</div>
+        </div>
+      </div>
+    </div>
+  </section>
+ 
+  
+  <section id="galeria">
+    <div class="sekcia-obal">
+      <h2 class="sekcia-nadpis">Galéria</h2>
+    </div>
+    <div class="galeria-grid">
+      <div class="galeria-item">
+        <img src="https://www.asb.sk/wp-content/uploads/2025/07/IL6A9593.jpg" alt="Projekt 1"/>
+        <div class="galeria-overlay">Výstavba budovy</div>
+      </div>
+      <div class="galeria-item">
+        <img src="https://www.kysuce.sk/images/content/Rezidencia-Komenskeho-bytovy-dom-2018-knm-1.jpg" alt="Projekt 2"/>
+        <div class="galeria-overlay">Bytovka</div>
+      </div>
+      <div class="galeria-item">
+        <img src="https://www.soas.sk/wp-content/uploads/2023/03/02.png" alt="Projekt 3"/>
+        <div class="galeria-overlay">Rekonštrukcia</div>
+      </div>
+      <div class="galeria-item">
+        <img src="https://www.younghouse.sk/writable/images/photo/gallery111/big/brunto-6.jpeg" alt="Projekt 4"/>
+        <div class="galeria-overlay">Rodinný dom</div>
+      </div>
+      <div class="galeria-item">
+        <img src="https://vauarchitects.sk/wp-content/uploads/2019/11/kancelarske-priestory-EXXETA_VAUarchitects-01_web-scaled.jpg" alt="Projekt 5"/>
+        <div class="galeria-overlay">Kancelárie</div>
+      </div>
+      <div class="galeria-item">
+        <img src="https://bvk-pro.com/wp-content/uploads/2024/09/image-engineering-objects-workplace-top-view-construction-concept-engineering-tools-vintage-tone-retro-filter-effect-soft-focus-selective-focus.jpg" alt="Projekt 6"/>
+        <div class="galeria-overlay">Projekt – základy</div>
+      </div>
+    </div>
+  </section>
+ 
+  
+  <section id="kontakt">
+    <div class="sekcia-obal">
+      <h2 class="sekcia-nadpis">Kontakt</h2>
+    </div>
+    <div class="kontakt-wrap">
+      <div class="kontakt-info">
+        <h3>Nájdete nás tu</h3>
+        <div class="kontakt-riadok"><strong>Adresa</strong><span>Hlavná 12, 010 00 Žilina</span></div>
+        <div class="kontakt-riadok"><strong>Telefón</strong><span>+421 900 183 976</span></div>
+        <div class="kontakt-riadok"><strong>Email</strong><span>info@simtel.sk</span></div>
+        <div class="kontakt-riadok"><strong>Otváracie hodiny</strong><span>Po – Pia: 8:00 – 17:00</span></div>
+      </div>
+      <div class="formular">
+        <input type="text" placeholder="Meno" />
+        <input type="email" placeholder="Email" />
+        <textarea placeholder="Správa..."></textarea>
+        <button type="button">Odoslať</button>
+      </div>
+    </div>
+  </section>
+ 
+  
+  <footer>
+    <p>&copy; 2024 <span>SIMTEL</span> s.r.o. – Všetky práva vyhradené &nbsp;|&nbsp; Žilina, Slovensko</p>
+  </footer>
+ 
+</body>
+</html>
